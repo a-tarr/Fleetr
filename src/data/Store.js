@@ -10,7 +10,6 @@ export default class Store {
     this.empireShips = [];
     this.rebelShips = [];
     this.shipRatio = 70;
-    this.squadronRatio = 30;
   }
 
   addShips(ships) {

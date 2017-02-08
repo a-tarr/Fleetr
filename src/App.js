@@ -76,6 +76,7 @@ class App extends Component {
     var x = this.fillEmpire({'ships':0.35, 'squadrons':0.65}, testEmpireData, 200);
     var fleet = this.groupShips(x.result);
     var empirePoints = x.totalPoints;
+    var rebelPoints = x.totalPoints;
 
     return (
       <div className="App">
@@ -88,6 +89,9 @@ class App extends Component {
               <Grid.Column>
                 <ShipList faction="Empire" fleet={fleet} points={empirePoints} />
               </Grid.Column>
+              <Grid.Column>
+                <ShipList faction="Rebel" fleet={fleet} points={rebelPoints} />
+              </Grid.Column>
             </Grid.Row>
             <Grid.Row columns="2">
               <Grid.Column>
@@ -99,14 +103,11 @@ class App extends Component {
                 </Button>
               </Grid.Column>
               <Grid.Column>
-                Ships: <Input onChange={this.props.store.inputChange} name="shipsinput" value={this.props.store.shipRatio} className="weight-input" size="mini" />
-                &nbsp;
-                Squadrons: <Input onChange={this.props.store.inputChange} name="squadronsinput" value={this.props.store.squadronRatio} className="weight-input" size="mini" />
+                Ships: <Input name="shipsinput" defaultValue={this.props.store.shipRatio} className="weight-input" size="mini" />
                 &nbsp;&nbsp;
                 <Popup
                   trigger={<Icon size="large" name="help circle" />}
-                  content="The chance for a ship or a squadron to be picked from the collective list of ships.
-                           Note that because squadrons have a naturally higher frequency, a 50:50 split will result in a squadron heavy fleet."
+                  content="The weight for the chance for a ship to be picked. Max value is 100."
                 />
               </Grid.Column>
             </Grid.Row>
