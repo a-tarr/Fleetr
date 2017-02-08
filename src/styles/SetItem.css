@@ -1,5 +1,22 @@
 .set-item {
   float: left;
   text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
+}
+
+.roundTimer {
+  font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
+  user-select: none;
+}
+
+.number {
+  padding: 0 7px;
+  font-size: 16px;
+}
+
+.button-override {
+  margin: 0 !important;
 }

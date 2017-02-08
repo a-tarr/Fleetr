@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import { Sets } from './data/sets';
-import { List } from 'semantic-ui-react';
+import { List, Button, Icon } from 'semantic-ui-react';
 import Store from './data/Store';
 import './styles/SetItem.css';
-import './styles/RoundTimer.css';
 
 class SetItem extends Component {
   constructor(props) {
@@ -18,7 +16,7 @@ class SetItem extends Component {
     this.setState({
       currentRound: this.state.currentRound + 1
     })
-    Store.addShips(Sets.core);
+    this.props.store.addShips(Sets.core);
   }
 
   decrement() {
@@ -27,21 +25,21 @@ class SetItem extends Component {
         currentRound: this.state.currentRound - 1
       })
     }
+    this.props.store.removeShips(Sets.core);
   }
 
   render() {
     return (
       <div className="set-item">
         Core Set
-
         <div className="roundTimer">
-          <div className="buttonContainer" onClick={() => this.decrement()}>
-            <div className="arrow" >&lt;</div>
-          </div>
+          <Button className="button-override" size="mini" icon compact onClick={() => this.decrement()}>
+            <Icon name='chevron left' />
+          </Button>
           <span className="number">{this.state.currentRound}</span>
-          <div className="buttonContainer" onClick={() => this.increment()}>
-            <div className="arrow">&gt;</div>
-          </div>
+          <Button className="button-override" size="mini" icon compact onClick={() => this.increment()}>
+            <Icon name='chevron right' />
+          </Button>
         </div>
 
       </div>

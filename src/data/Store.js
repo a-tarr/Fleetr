@@ -1,24 +1,30 @@
 import { observable } from 'mobx';
 
-class Store {
+export default class Store {
   @observable empireShips;
   @observable rebelShips;
+  @observable shipRatio;
+  @observable squadronRatio;
 
   constructor() {
     this.empireShips = [];
     this.rebelShips = [];
+    this.shipRatio = 70;
+    this.squadronRatio = 30;
   }
 
   addShips(ships) {
-    this.empireShips.concat(ships.empire)
-    this.rebelShips.concat(ships.rebel)
-    console.log(this.empireShips);
+    this.empireShips = this.empireShips.concat(ships.empire)
+    this.rebelShips = this.rebelShips.concat(ships.rebel)
   }
 
   removeShips(ships) {
+    ships.empire.forEach((item) => {
+      this.empireShips.splice(this.empireShips.indexOf(item), 1);
+    })
 
+    ships.rebel.forEach((item) => {
+      this.rebelShips.splice(this.rebelShips.indexOf(item), 1);
+    })
   }
 }
-
-const store = new Store();
-export default store;

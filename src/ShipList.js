@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import { Card, List } from 'semantic-ui-react';
 import './styles/ShipList.css';
 
@@ -23,11 +22,14 @@ class ShipList extends Component {
 
   render() {
     return (
-      <Card color={this.setColour()}>
+      <Card centered color={this.setColour()}>
         <Card.Content>
           <Card.Header>{this.props.faction}</Card.Header>
           <List divided relaxed>
             {this.listShipNames(this.props.fleet)}
+            <List.Item>
+              Points: {this.props.points}
+            </List.Item>
           </List>
         </Card.Content>
       </Card>

@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import { Ships } from './data/ships';
 import { observable } from 'mobx';
 import { Squadrons } from './data/squadrons';
-import { List } from 'semantic-ui-react';
-import { Grid } from 'semantic-ui-react';
+import { List, Grid, Button, Input, Popup, Icon } from 'semantic-ui-react';
 import ShipList from './ShipList';
 import SetItem from './SetItem';
-import './App.css';
+import './styles/App.css';
 
 var testEmpireData = ['vsd', 'vsd', 'tiefighter', 'tiefighter', 'tiefighter'];
 
@@ -74,8 +73,9 @@ class App extends Component {
   }
 
   render() {
-    var x = this.fillEmpire({'ships':0.35, 'squadrons':0.65}, testEmpireData, 200).result;
-    var fleet = this.groupShips(x);
+    var x = this.fillEmpire({'ships':0.35, 'squadrons':0.65}, testEmpireData, 200);
+    var fleet = this.groupShips(x.result);
+    var empirePoints = x.totalPoints;
 
     return (
       <div className="App">
@@ -86,16 +86,33 @@ class App extends Component {
           <Grid padded>
             <Grid.Row columns="2">
               <Grid.Column>
-                <ShipList faction="Empire" fleet={fleet}/>
+                <ShipList faction="Empire" fleet={fleet} points={empirePoints} />
               </Grid.Column>
             </Grid.Row>
             <Grid.Row columns="2">
               <Grid.Column>
+                <Button>
+                  Generate lists
+                </Button>
+                <Button>
+                  Reset
+                </Button>
+              </Grid.Column>
+              <Grid.Column>
+                Ships: <Input onChange={this.props.store.inputChange} name="shipsinput" value={this.props.store.shipRatio} className="weight-input" size="mini" />
+                &nbsp;
+                Squadrons: <Input onChange={this.props.store.inputChange} name="squadronsinput" value={this.props.store.squadronRatio} className="weight-input" size="mini" />
+                &nbsp;&nbsp;
+                <Popup
+                  trigger={<Icon size="large" name="help circle" />}
+                  content="The chance for a ship or a squadron to be picked from the collective list of ships.
+                           Note that because squadrons have a naturally higher frequency, a 50:50 split will result in a squadron heavy fleet."
+                />
               </Grid.Column>
             </Grid.Row>
             <Grid.Row columns="5">
               <Grid.Column>
-                <SetItem />
+                <SetItem store={this.props.store} />
               </Grid.Column>
             </Grid.Row>
           </Grid>
