@@ -1,42 +1,54 @@
 import React, { Component } from 'react';
+import { observer } from 'mobx-react';
+import { observable } from 'mobx';
 import { Sets } from './data/sets';
-import { List, Button, Icon } from 'semantic-ui-react';
-import Store from './data/Store';
+import { Button, Icon } from 'semantic-ui-react';
 import './styles/SetItem.css';
 
+@observer
 class SetItem extends Component {
+  @observable count = 0;
+
   constructor(props) {
     super(props);
     this.state = {
-      currentRound: 0
+      decrementVisible: false,
+      incrementVisible: true
     }
   }
 
-  increment() {
-    this.setState({
-      currentRound: this.state.currentRound + 1
-    })
-    this.props.store.addShips(Sets.core);
+  componentWillReceiveProps(nextProps) {
+    if (this.props.updater !== nextProps.updater) {
+      this.count = 0;
+    }
   }
 
   decrement() {
-    if (this.state.currentRound > 0) {
-      this.setState({
-        currentRound: this.state.currentRound - 1
-      })
+    if (this.count > 0) {
+      this.count -= 1
     }
-    this.props.store.removeShips(Sets.core);
+    this.props.store.removeShips(Sets[this.props.set]);
+  }
+
+  increment() {
+    this.count += 1
+    this.props.store.addShips(Sets[this.props.set]);
   }
 
   render() {
+    let decrement = null;
+    if (this.count > 0) {
+      decrement = <Button className="button-override" size="mini" icon compact onClick={() => this.decrement()}>
+        <Icon name='chevron left' />
+      </Button>
+    }
+
     return (
       <div className="set-item">
-        Core Set
+        {this.props.name}
         <div className="roundTimer">
-          <Button className="button-override" size="mini" icon compact onClick={() => this.decrement()}>
-            <Icon name='chevron left' />
-          </Button>
-          <span className="number">{this.state.currentRound}</span>
+          {decrement}
+          <span className="number">{this.count}</span>
           <Button className="button-override" size="mini" icon compact onClick={() => this.increment()}>
             <Icon name='chevron right' />
           </Button>

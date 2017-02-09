@@ -1,119 +1,114 @@
 import React, { Component } from 'react';
-import { Ships } from './data/ships';
 import { observable } from 'mobx';
-import { Squadrons } from './data/squadrons';
-import { List, Grid, Button, Input, Popup, Icon } from 'semantic-ui-react';
+import { observer } from 'mobx-react';
+import { Grid, Button, Input, Popup, Icon } from 'semantic-ui-react';
 import ShipList from './ShipList';
 import SetItem from './SetItem';
+import { fillFaction, groupShips } from './utility.js';
 import './styles/App.css';
 
-var testEmpireData = ['vsd', 'vsd', 'tiefighter', 'tiefighter', 'tiefighter'];
-
+@observer
 class App extends Component {
+  @observable rebelPoints = 0;
+  @observable rebelFleet = [];
+  @observable empirePoints = 0;
+  @observable empireFleet = [];
+  @observable ratio = {'ships': 50, 'squadrons': 50}
+  @observable points = 200;
+  @observable flipCountToReset = true;
 
-  weightedRand(spec) {
-    var table = [];
-
-    for (let i in spec) {
-      for (let j=0; j<spec[i]*100; j++) {
-        table.push(i);
-      }
-    }
-
-    var selectedType = table[Math.floor(Math.random() * table.length)];
-    if (selectedType === 'ships') {
-      return Ships;
-    } else if (selectedType === 'squadrons') {
-      return Squadrons;
-    }
+  constructor(props) {
+    super(props);
+    this.onChange = this.onChange.bind(this);
+    this.pointsChange = this.pointsChange.bind(this);
   }
 
-  fillEmpire(weights, available, size) {
-    const attemptsBeforeBreak = 200;
-    let result = [];
-    let totalPoints = 0;
-    let attempts = 0;
-
-    while (totalPoints < size) {
-      let selectedType = this.weightedRand(weights);
-      //TODO: extract this into a function (selectRandomProp)
-      let keys = Object.keys(selectedType.empire);
-      let randomKeyParent = keys[keys.length * Math.random() << 0];
-      let randomKeyObject = selectedType.empire[randomKeyParent];
-      //pick a random variant if its a ship
-      if (selectedType === Ships) {
-        keys = Object.keys(randomKeyObject);
-        randomKeyObject = randomKeyObject[keys[keys.length * Math.random() << 0]];
-      }
-      //TODO: extract this into a function
-      let chosenkey = available.indexOf(randomKeyParent);
-      if (chosenkey !== -1 && randomKeyObject.points + totalPoints <= size) {
-        result.push(randomKeyObject.name);
-        available.splice(chosenkey, 1);
-        totalPoints += randomKeyObject.points;
-      }
-      attempts++;
-      if (attempts === attemptsBeforeBreak) {
-        return {result, totalPoints};
-      }
-    }
-    return {result, totalPoints};
+  onChange(event) {
+    this.ratio.ships = event.target.value;
+    this.ratio.squadrons = 100 - this.ratio.ships;
   }
 
-  groupShips(fleet) {
-    let groups = {};
-    for (let i = 0; i < fleet.length; i++) {
-      if (!groups[fleet[i]]) {
-        groups[fleet[i]] = 1;
-      } else {
-        groups[fleet[i]] = groups[fleet[i]] + 1;
-      }
-    }
-    return groups;
+  pointsChange(event) {
+    this.points = event.target.value;
+  }
+
+  generateLists(ratio) {
+    let empire = fillFaction('empire', ratio, this.props.store.empireShips, this.points);
+    this.empirePoints = empire.totalPoints;
+    this.empireFleet = groupShips(empire.result);
+
+    let rebel = fillFaction('rebel', ratio, this.props.store.rebelShips, this.points);
+    this.rebelPoints = rebel.totalPoints;
+    this.rebelFleet = groupShips(rebel.result);
+  }
+
+  reset() {
+    this.rebelPoints = 0;
+    this.rebelFleet = [];
+    this.empirePoints = 0;
+    this.empireFleet = [];
+    this.ratio = {'ships': 50, 'squadrons': 50}
+    this.points = 200;
+    this.flipCountToReset = !this.flipCountToReset;
   }
 
   render() {
-    var x = this.fillEmpire({'ships':0.35, 'squadrons':0.65}, testEmpireData, 200);
-    var fleet = this.groupShips(x.result);
-    var empirePoints = x.totalPoints;
-    var rebelPoints = x.totalPoints;
-
     return (
       <div className="App">
         <div className="App-header">
           <h2>Fleetr</h2>
         </div>
         <div className="app-container">
-          <Grid padded>
+          <Grid className="list-row" padded>
             <Grid.Row columns="2">
               <Grid.Column>
-                <ShipList faction="Empire" fleet={fleet} points={empirePoints} />
+                <ShipList faction="Empire" fleet={this.empireFleet} points={this.empirePoints} />
               </Grid.Column>
               <Grid.Column>
-                <ShipList faction="Rebel" fleet={fleet} points={rebelPoints} />
+                <ShipList faction="Rebel" fleet={this.rebelFleet} points={this.rebelPoints} />
               </Grid.Column>
             </Grid.Row>
             <Grid.Row columns="2">
               <Grid.Column>
-                <Button>
+                <Button onClick={() => this.generateLists(this.ratio)}>
                   Generate lists
                 </Button>
-                <Button>
+                <Button onClick={() => this.reset()}>
                   Reset
                 </Button>
               </Grid.Column>
               <Grid.Column>
-                Ships: <Input name="shipsinput" defaultValue={this.props.store.shipRatio} className="weight-input" size="mini" />
+                Points: <Input name="pointsinput" onChange={this.pointsChange} value={this.points} className="weight-input" size="mini" />&nbsp;
+                Ship % chance: <Input name="shipsinput" onChange={this.onChange} value={this.ratio.ships} className="weight-input" size="mini" />
                 &nbsp;&nbsp;
                 <Popup
                   trigger={<Icon size="large" name="help circle" />}
-                  content="The weight for the chance for a ship to be picked. Max value is 100."
+                  content="Change this if you want to lean your fleet towards more ships or more squadrons."
                 />
               </Grid.Column>
             </Grid.Row>
-            <Grid.Row columns="5">
+            <Grid.Row columns="3">
               <Grid.Column>
-                <SetItem store={this.props.store} />
+                <b>Wave 1</b><br/><br/>
+                <SetItem name="Core Set" set="core" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
+                <SetItem name="Victory-class Star Destroyer" set="victory" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
+                <SetItem name="CR90 Corellian Corvette" set="cr90" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
+                <SetItem name="Nebulon-B Frigate" set="nebulon" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
+                <SetItem name="Assault Frigate Mark II" set="assault" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
+                <SetItem name="Gladiator-class Star Destroyer" set="gladiator" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
+                <SetItem name="Rebel Fighter Squadrons" set="rebelsquadron" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
+                <SetItem name="Imperial Fighter Squadrons" set="imperialsquadron" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
+              </Grid.Column>
+              <Grid.Column>
+                <b>Wave 2</b><br/><br/>
+                <SetItem name="Imperial-class Star Destroyer" set="imperial" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
+                <SetItem name="MC30c Frigate" set="mc30" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
+                <SetItem name="Home One" set="homeone" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
+                <SetItem name="Rogues and Villians" set="roguesvillians" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
+                <SetItem name="Imperial Raider" set="raider" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
+                <b>Wave 3</b><br/><br/>
+                <SetItem name="TODO" set="imperial" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
+                <SetItem name="TODO" set="mc30" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
               </Grid.Column>
             </Grid.Row>
           </Grid>

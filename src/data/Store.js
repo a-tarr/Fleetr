@@ -9,7 +9,6 @@ export default class Store {
   constructor() {
     this.empireShips = [];
     this.rebelShips = [];
-    this.shipRatio = 70;
   }
 
   addShips(ships) {
