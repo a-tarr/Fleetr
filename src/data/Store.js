@@ -25,4 +25,9 @@ export default class Store {
       this.rebelShips.splice(this.rebelShips.indexOf(item), 1);
     })
   }
+
+  reset() {
+    this.empireShips = [];
+    this.rebelShips = [];
+  }
 }

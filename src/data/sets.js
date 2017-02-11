@@ -39,5 +39,29 @@ export const Sets = {
   },
   raider: {
     empire: ['raider']
+  },
+  assaultcarriers: {
+    empire: ['assaultcarriers']
+  },
+  rebeltransports: {
+    rebel: ['rebeltransports']
+  },
+  interdictor: {
+    empire: ['interdictor']
+  },
+  liberty: {
+    rebel: ['liberty']
+  },
+  phoenix: {
+    rebel: ['phoenix']
+  },
+  imperialcruiser: {
+    empire: ['imperialcruiser']
+  },
+  rebelsquadron2: {
+    rebel: ['ewing', 'lancer', 'vcx100', 'z95']
+  },
+  imperialsquadron2: {
+    empire: ['lambda', 'tiephantom', 'tiedefender', 'vt49']
   }
 }

@@ -50,17 +50,15 @@ class App extends Component {
     this.ratio = {'ships': 50, 'squadrons': 50}
     this.points = 200;
     this.flipCountToReset = !this.flipCountToReset;
+    this.props.store.reset();
   }
 
   render() {
     return (
       <div className="App">
-        <div className="App-header">
-          <h2>Fleetr</h2>
-        </div>
         <div className="app-container">
           <Grid className="list-row" padded>
-            <Grid.Row columns="2">
+            <Grid.Row className="lists" columns="2">
               <Grid.Column>
                 <ShipList faction="Empire" fleet={this.empireFleet} points={this.empirePoints} />
               </Grid.Column>
@@ -87,29 +85,39 @@ class App extends Component {
                 />
               </Grid.Column>
             </Grid.Row>
-            <Grid.Row columns="3">
-              <Grid.Column>
-                <b>Wave 1</b><br/><br/>
-                <SetItem name="Core Set" set="core" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
-                <SetItem name="Victory-class Star Destroyer" set="victory" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
-                <SetItem name="CR90 Corellian Corvette" set="cr90" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
-                <SetItem name="Nebulon-B Frigate" set="nebulon" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
-                <SetItem name="Assault Frigate Mark II" set="assault" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
-                <SetItem name="Gladiator-class Star Destroyer" set="gladiator" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
-                <SetItem name="Rebel Fighter Squadrons" set="rebelsquadron" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
-                <SetItem name="Imperial Fighter Squadrons" set="imperialsquadron" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
-              </Grid.Column>
-              <Grid.Column>
-                <b>Wave 2</b><br/><br/>
-                <SetItem name="Imperial-class Star Destroyer" set="imperial" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
-                <SetItem name="MC30c Frigate" set="mc30" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
-                <SetItem name="Home One" set="homeone" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
-                <SetItem name="Rogues and Villians" set="roguesvillians" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
-                <SetItem name="Imperial Raider" set="raider" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
-                <b>Wave 3</b><br/><br/>
-                <SetItem name="TODO" set="imperial" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
-                <SetItem name="TODO" set="mc30" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
-              </Grid.Column>
+            <Grid.Row className="set-list" columns="3">
+                <Grid.Column>
+                  <b>Wave 1</b><br/><br/>
+                  <SetItem name="Core Set" set="core" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
+                  <SetItem name="Victory-class Star Destroyer" set="victory" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
+                  <SetItem name="CR90 Corellian Corvette" set="cr90" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
+                  <SetItem name="Nebulon-B Frigate" set="nebulon" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
+                  <SetItem name="Assault Frigate Mark II" set="assault" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
+                  <SetItem name="Gladiator-class Star Destroyer" set="gladiator" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
+                  <SetItem name="Rebel Fighter Squadrons" set="rebelsquadron" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
+                  <SetItem name="Imperial Fighter Squadrons" set="imperialsquadron" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
+                </Grid.Column>
+                <Grid.Column>
+                  <b>Wave 2</b><br/><br/>
+                  <SetItem name="Imperial-class Star Destroyer" set="imperial" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
+                  <SetItem name="MC30c Frigate" set="mc30" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
+                  <SetItem name="Home One" set="homeone" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
+                  <SetItem name="Rogues and Villians" set="roguesvillians" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
+                  <SetItem name="Imperial Raider" set="raider" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
+                  <b>Wave 3</b><br/><br/>
+                  <SetItem name="Imperial Assault Carriers" set="assaultcarriers" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
+                  <SetItem name="Rebel Transports" set="rebeltransports" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
+                </Grid.Column>
+                <Grid.Column>
+                  <b>Wave 4</b><br/><br/>
+                  <SetItem name="Interdictor" set="interdictor" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
+                  <SetItem name="Liberty" set="liberty" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
+                  <b>Wave 5</b><br/><br/>
+                  <SetItem name="Phoenix Home" set="phoenix" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
+                  <SetItem name="Imperial Light Cruiser" set="imperialcruiser" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
+                  <SetItem name="Rebel Fighter Squadrons II" set="rebelsquadron2" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
+                  <SetItem name="Imperial Fighter Squadrons II" set="imperialsquadron2" store={this.props.store} updater={this.flipCountToReset} /><br/><br/>
+                </Grid.Column>
             </Grid.Row>
           </Grid>
         </div>

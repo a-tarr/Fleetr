@@ -39,6 +39,36 @@ export const Ships = {
         name: "Raider II-class Corvette",
         points: 44
       }
+    },
+    assaultcarriers: {
+      assault: {
+        name: "Gozanti-class Assault Carriers",
+        points: 28
+      },
+      normal: {
+        name: "Gozanti-class Cruisers",
+        points: 23
+      }
+    },
+    interdictor: {
+      combat: {
+        name: "Interdictor Combat Refit",
+        points: 93
+      },
+      supression: {
+        name: "Interdictor Supression Refit",
+        points: 90
+      }
+    },
+    imperialcruiser: {
+      light: {
+        name: "Arquitens-class Light Cruiser",
+        points: 54
+      },
+      command: {
+        name: "Arquitens-class Command Cruiser",
+        points: 59
+      }
     }
   },
   rebel: {
@@ -90,6 +120,36 @@ export const Ships = {
       command: {
         name: "MC80 Command Cruiser",
         points: 106
+      }
+    },
+    rebeltransports: {
+      combat: {
+        name: "GR-75 Combat Retrofits",
+        points: 24
+      },
+      medium: {
+        name: "GR-75 Medium Retrofits",
+        points: 18
+      }
+    },
+    liberty: {
+      battle: {
+        name: "MC80 Battle Cruiser",
+        points: 103
+      },
+      star: {
+        name: "MC80 Star Cruiser",
+        points: 96
+      }
+    },
+    phoenix: {
+      assault: {
+        name: "Modified Pelta-class Assault Ship",
+        points: 56
+      },
+      dommand: {
+        name: "Modified Pelta-class Command Ship",
+        points: 60
       }
     }
   }

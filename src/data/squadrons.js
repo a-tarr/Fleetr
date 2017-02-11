@@ -31,6 +31,22 @@ export const Squadrons = {
     jumpmaster: {
       name: "JumpMaster 5000",
       points: 12
+    },
+    lambda: {
+      name: "Lambda-class Shuttle",
+      points: 15
+    },
+    tiephantom: {
+      name: "TIE Phantom Squadron",
+      points: 14
+    },
+    tiedefender: {
+      name: "Tie Defender Squadron",
+      points: 16
+    },
+    vt49: {
+      name: "VT-49 Decimator",
+      points: 22
     }
   },
   rebel: {
@@ -65,6 +81,22 @@ export const Squadrons = {
     scurrg: {
       name: "Scurrg H-6 Bomber",
       points: 16
+    },
+    ewing: {
+      name: "E-wing Squadron",
+      points: 15
+    },
+    lancer: {
+      name: "Lancer-class Pursuit Craft",
+      points: 15
+    },
+    vcx100: {
+      name: "VCX-100 Freighter",
+      points: 15
+    },
+    z95: {
+      name: "Z-95 Headhunter Squadron",
+      points: 7
     }
   }
 }
