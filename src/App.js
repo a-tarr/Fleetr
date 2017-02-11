@@ -16,6 +16,8 @@ class App extends Component {
   @observable ratio = {'ships': 50, 'squadrons': 50}
   @observable points = 200;
   @observable flipCountToReset = true;
+  @observable pointserror = false;
+  @observable shiperror = false;
 
   constructor(props) {
     super(props);
@@ -24,22 +26,34 @@ class App extends Component {
   }
 
   onChange(event) {
+    if (isNaN(event.target.value) || event.target.value < 0 || event.target.value > 100) {
+      this.shiperror = true;
+    } else {
+      this.shiperror = false;
+      this.ratio.squadrons = 100 - this.ratio.ships;
+    }
     this.ratio.ships = event.target.value;
-    this.ratio.squadrons = 100 - this.ratio.ships;
   }
 
   pointsChange(event) {
+    if (isNaN(event.target.value) || event.target.value < 0) {
+      this.pointserror = true;
+    } else {
+      this.pointserror = false;
+    }
     this.points = event.target.value;
   }
 
   generateLists(ratio) {
-    let empire = fillFaction('empire', ratio, this.props.store.empireShips, this.points);
-    this.empirePoints = empire.totalPoints;
-    this.empireFleet = groupShips(empire.result);
+    if (this.shiperror === false && this.pointserror === false) {
+      let empire = fillFaction('empire', ratio, this.props.store.empireShips, this.points);
+      this.empirePoints = empire.totalPoints;
+      this.empireFleet = groupShips(empire.result);
 
-    let rebel = fillFaction('rebel', ratio, this.props.store.rebelShips, this.points);
-    this.rebelPoints = rebel.totalPoints;
-    this.rebelFleet = groupShips(rebel.result);
+      let rebel = fillFaction('rebel', ratio, this.props.store.rebelShips, this.points);
+      this.rebelPoints = rebel.totalPoints;
+      this.rebelFleet = groupShips(rebel.result);
+    }
   }
 
   reset() {
@@ -51,6 +65,8 @@ class App extends Component {
     this.points = 200;
     this.flipCountToReset = !this.flipCountToReset;
     this.props.store.reset();
+    this.pointserror = false;
+    this.shiperror = false;
   }
 
   render() {
@@ -76,8 +92,8 @@ class App extends Component {
                 </Button>
               </Grid.Column>
               <Grid.Column>
-                Points: <Input name="pointsinput" onChange={this.pointsChange} value={this.points} className="weight-input" size="mini" />&nbsp;
-                Ship % chance: <Input name="shipsinput" onChange={this.onChange} value={this.ratio.ships} className="weight-input" size="mini" />
+                Points: <Input name="pointsinput" error={this.pointserror} onChange={this.pointsChange} value={this.points} className="weight-input" size="mini" />&nbsp;
+                Ship % chance: <Input name="shipsinput" error={this.shiperror} onChange={this.onChange} value={this.ratio.ships} className="weight-input" size="mini" />
                 &nbsp;&nbsp;
                 <Popup
                   trigger={<Icon size="large" name="help circle" />}
