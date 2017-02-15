@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import ReactGA from 'react-ga';
 import Nav from './Nav';
 import App from './App';
 import About from './About';
-const ReactGA = require('react-ga');
 
 ReactGA.initialize('UA-91813265-1');
+ReactGA.pageview(window.location.pathname);
 
 function logPageView() {
   ReactGA.set({ page: window.location.pathname });
