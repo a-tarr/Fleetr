@@ -9,6 +9,7 @@ export function weightedRand(spec) {
       table.push(i);
     }
   }
+
   var selectedType = table[Math.floor(Math.random() * table.length)];
   if (selectedType === 'ships') {
     return Ships;

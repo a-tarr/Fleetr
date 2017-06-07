@@ -30,7 +30,6 @@ class App extends Component {
       this.shiperror = true;
     } else {
       this.shiperror = false;
-      this.ratio.squadrons = 100 - this.ratio.ships;
     }
     this.ratio.ships = event.target.value;
   }
@@ -45,6 +44,7 @@ class App extends Component {
   }
 
   generateLists(ratio) {
+    this.ratio.squadrons = 100 - this.ratio.ships;
     if (this.shiperror === false && this.pointserror === false) {
       let empire = fillFaction('empire', ratio, this.props.store.empireShips, this.points);
       this.empirePoints = empire.totalPoints;
@@ -85,7 +85,7 @@ class App extends Component {
             <Grid.Row columns="2">
               <Grid.Column>
                 <Button onClick={() => this.generateLists(this.ratio)}>
-                  Generate lists
+                  Generate
                 </Button>
                 <Button onClick={() => this.reset()}>
                   Reset
