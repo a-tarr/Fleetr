@@ -3,10 +3,6 @@ import { Card, List } from 'semantic-ui-react';
 import './styles/ShipList.css';
 
 class ShipList extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   listShipNames(fleet) {
     return Object.keys(fleet).map((ship) =>
       <List.Item>
@@ -17,7 +13,7 @@ class ShipList extends Component {
   }
 
   setColour() {
-    return this.props.faction.toLowerCase() === "empire" ? "blue" : "red"
+    return this.props.faction.toLowerCase() === 'empire' ? 'blue' : 'red';
   }
 
   render() {

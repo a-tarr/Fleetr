@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Main from './Main';
 import Store from './data/Store';
+import Main from './Main';
 import './index.css';
 
 const store = new Store();
