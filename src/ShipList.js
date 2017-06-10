@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Card, List } from 'semantic-ui-react';
-import './styles/ShipList.css';
 
 class ShipList extends Component {
   listShipNames(fleet) {

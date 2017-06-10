@@ -1,11 +1,36 @@
 import React, { Component } from 'react';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
-import { Grid, Button, Input, Popup, Icon } from 'semantic-ui-react';
+import { Grid, Button, Input, Popup, Icon, Card } from 'semantic-ui-react';
 import ShipList from './ShipList';
 import SetItem from './SetItem';
+import WaveList from './WaveList';
 import { fillFaction, groupShips } from './utility.js';
 import './styles/App.css';
+import styled from 'styled-components';
+
+const ListWrapper = styled.div`
+  margin-top: 12px;
+  background-color: #333;
+  background-image: url(https://bapcdn.azureedge.net/images/space.jpeg);
+  background-attachment: fixed;
+  background-position: 0 -500px;
+`;
+
+const List = styled(Card.Group)`
+  &&& {
+    display: flex;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: space-between;
+  }
+`;
+
+const Copyright = styled.div`
+  font-size: 10px;
+  color: #333;
+`
 
 @observer
 class App extends Component {
@@ -69,19 +94,19 @@ class App extends Component {
     this.shiperror = false;
   }
 
+    // <WaveList store={this.props.store} />
+
   render() {
     return (
       <div className="App">
+        <ListWrapper>
+          <List>
+            <ShipList faction="Empire" fleet={this.empireFleet} points={this.empirePoints} />
+            <ShipList faction="Rebel" fleet={this.rebelFleet} points={this.rebelPoints} />
+          </List>
+        </ListWrapper>
         <div className="app-container">
           <Grid className="list-row" padded>
-            <Grid.Row className="lists" columns="2">
-              <Grid.Column>
-                <ShipList faction="Empire" fleet={this.empireFleet} points={this.empirePoints} />
-              </Grid.Column>
-              <Grid.Column>
-                <ShipList faction="Rebel" fleet={this.rebelFleet} points={this.rebelPoints} />
-              </Grid.Column>
-            </Grid.Row>
             <Grid.Row columns="2">
               <Grid.Column>
                 <Button onClick={() => this.generateLists(this.ratio)}>
@@ -137,6 +162,7 @@ class App extends Component {
             </Grid.Row>
           </Grid>
         </div>
+        <Copyright>© Anthony Tarr - {new Date().getFullYear()}</Copyright>
       </div>
     );
   }
