@@ -10,7 +10,6 @@ import './styles/App.css';
 import styled from 'styled-components';
 
 const ListWrapper = styled.div`
-  margin-top: 12px;
   background-color: #333;
   background-image: url(https://bapcdn.azureedge.net/images/space.jpeg);
   background-attachment: fixed;
@@ -19,6 +18,7 @@ const ListWrapper = styled.div`
 
 const List = styled(Card.Group)`
   &&& {
+    margin: 0;
     display: flex;
     max-width: 1200px;
     margin-left: auto;
@@ -106,17 +106,13 @@ class App extends Component {
           </List>
         </ListWrapper>
         <div className="app-container">
-          <Grid className="list-row" padded>
-            <Grid.Row columns="2">
-              <Grid.Column>
+          <div className="list-row">
                 <Button onClick={() => this.generateLists(this.ratio)}>
                   Generate
                 </Button>
                 <Button onClick={() => this.reset()}>
                   Reset
                 </Button>
-              </Grid.Column>
-              <Grid.Column>
                 Points: <Input name="pointsinput" error={this.pointserror} onChange={this.pointsChange} value={this.points} className="weight-input" size="mini" />&nbsp;
                 Ship % chance: <Input name="shipsinput" error={this.shiperror} onChange={this.onChange} value={this.ratio.ships} className="weight-input" size="mini" />
                 &nbsp;&nbsp;
@@ -124,8 +120,8 @@ class App extends Component {
                   trigger={<Icon size="large" name="help circle" />}
                   content="Change this if you want to lean your fleet towards more ships or more squadrons."
                 />
-              </Grid.Column>
-            </Grid.Row>
+          </div>
+            <Grid>
             <Grid.Row className="set-list" columns="3">
                 <Grid.Column>
                   <b>Wave 1</b><br/><br/>
