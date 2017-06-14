@@ -121,7 +121,7 @@ class App extends Component {
                   content="Change this if you want to lean your fleet towards more ships or more squadrons."
                 />
           </div>
-            <Grid>
+            <Grid stackable>
             <Grid.Row className="set-list" columns="3">
                 <Grid.Column>
                   <b>Wave 1</b><br/><br/>
