@@ -85,3 +85,13 @@
 .paragraph {
   max-width: 600px;
 }
+
+.sticky-buttons {
+  z-index: 1200;
+  padding: 10px 0;
+  opacity: 1;
+  width: 100vw!important;
+  left: 0!important;
+  background-color: #fefefe;
+  box-shadow: 0 2px 3px -1px #ccc;
+}

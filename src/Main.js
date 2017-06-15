@@ -4,7 +4,7 @@ import ReactGA from 'react-ga';
 import Nav from './Nav';
 import App from './App';
 import About from './About';
-
+import { StickyContainer } from 'react-sticky';
 ReactGA.initialize('UA-91813265-1');
 ReactGA.pageview(window.location.pathname);
 
@@ -16,13 +16,15 @@ function logPageView() {
 export default class Main extends Component {
   render() {
     return (
-      <Router onUpdate={logPageView} >
-        <div>
-          <Nav />
-          <Route exact path="/" component={() =><App store={this.props.store}/>} />
-          <Route path="/about" component={() => <About />} />
-        </div>
-      </Router>
+      <StickyContainer>
+        <Router onUpdate={logPageView} >
+            <div>
+              <Nav />
+              <Route exact path="/" component={() =><App store={this.props.store}/>} />
+              <Route path="/about" component={() => <About />} />
+            </div>
+        </Router>
+      </StickyContainer>
     );
   }
 };
