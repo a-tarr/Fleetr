@@ -44,6 +44,7 @@ export function fillFaction(faction, weights, available, size) {
       totalPoints += randomKeyObject.points;
     }
     attempts++;
+    console.log(available);
     if (attempts === attemptsBeforeBreak) {
       return {result, totalPoints};
     }
