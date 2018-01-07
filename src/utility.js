@@ -5,7 +5,7 @@ export function weightedRand(spec) {
   var table = [];
 
   for (let i in spec) {
-    for (let j=0; j<spec[i]*100; j++) {
+    for (let j = 0; j < spec[i]; j++) {
       table.push(i);
     }
   }
@@ -19,7 +19,7 @@ export function weightedRand(spec) {
 }
 
 export function fillFaction(faction, weights, available, size) {
-  const attemptsBeforeBreak = 200;
+  const attemptsBeforeBreak = 100;
   let ships = available.slice(0);
   let result = [];
   let totalPoints = 0;
@@ -44,7 +44,6 @@ export function fillFaction(faction, weights, available, size) {
       totalPoints += randomKeyObject.points;
     }
     attempts++;
-    console.log(available);
     if (attempts === attemptsBeforeBreak) {
       return {result, totalPoints};
     }
